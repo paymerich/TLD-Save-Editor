@@ -40,6 +40,9 @@ namespace The_Long_Dark_Save_Editor_2.Tabs
                     if (!MapDictionary.MapExists(region))
                     {
                         region = MainWindow.Instance.CurrentSave.Global.GameManagerData.SceneTransition.m_LastOutdoorScene;
+
+                        if (MainWindow.Instance.CurrentSave.Global.GameManagerData.SceneTransition.m_PosBeforeInteriorLoad == null) { MainWindow.Instance.CurrentSave.Global.GameManagerData.SceneTransition.m_PosBeforeInteriorLoad = new float[3]; }
+                          
                         playerPosition = new Point(MainWindow.Instance.CurrentSave.Global.GameManagerData.SceneTransition.m_PosBeforeInteriorLoad[0], MainWindow.Instance.CurrentSave.Global.GameManagerData.SceneTransition.m_PosBeforeInteriorLoad[2]);
                     }
                     UpdateMap();
@@ -56,7 +59,7 @@ namespace The_Long_Dark_Save_Editor_2.Tabs
                     };
                     MainWindow.Instance.CurrentSave.Boot.m_SceneName.PropertyChanged += (sender2, e2) =>
                     {
-                        if ((e2.PropertyName == "Value") && (region != MainWindow.Instance.CurrentSave.Boot.m_SceneName.Value) )
+                        if ((e2.PropertyName == "Value") && (region != MainWindow.Instance.CurrentSave.Boot.m_SceneName.Value))
                         {
                             region = MainWindow.Instance.CurrentSave.Boot.m_SceneName.Value;
                             Debug.WriteLine("New region: " + region);
@@ -153,7 +156,7 @@ namespace The_Long_Dark_Save_Editor_2.Tabs
             if (mapInfo == null) return;
 
             double zoom = e.Delta > 0 ? .3 * scaleMap.ScaleX : -.3 * scaleMap.ScaleX;
-            
+
             var x = e.GetPosition(mapLayer).X / mapLayer.ActualWidth;
             var y = e.GetPosition(mapLayer).Y / mapLayer.ActualHeight;
             x = Math.Max(Math.Min(x, 1), 0);
@@ -164,7 +167,7 @@ namespace The_Long_Dark_Save_Editor_2.Tabs
             translateMap.X -= dX;
             translateMap.Y -= dY;
             mapLayer.RenderTransformOrigin = new Point(x, y);
-            
+
             scaleMap.ScaleX += zoom;
             scaleMap.ScaleY += zoom;
 
